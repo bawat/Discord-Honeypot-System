@@ -1,0 +1,7 @@
+services:
+  honeypot:
+    build: .
+    restart: always
+    volumes:
+      - ./Tokens:/app/Tokens
+      - ./Honeypot-Logs:/app/Honeypot-Logs
