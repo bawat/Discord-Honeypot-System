@@ -1,78 +1,57 @@
 [
-  {
-    "type": "Game",
-    "name": "World of Tanks"
-  },
-  {
-    "type": "Game",
-    "name": "War Thunder"
-  },
-  {
-    "type": "Game",
-    "name": "Call of Duty"
-  },
-  {
-    "type": "Game",
-    "name": "League of Legends"
-  },
-  {
-    "type": "Game",
-    "name": "Valorant"
-  },
-  {
-    "type": "Game",
-    "name": "HELLDIVERS 2"
-  },
-  {
-    "type": "Game",
-    "name": "Cyberpunk 2077"
-  },
-  {
-    "type": "Game",
-    "name": "Dota 2"
-  },
-  {
-    "type": "Game",
-    "name": "Destiny 2"
-  },
-  {
-    "type": "Game",
-    "name": "Elite Dangerous"
-  },
-  {
-    "type": "Game",
-    "name": "THE FINALS"
-  },
-  {
-    "type": "Game",
-    "name": "DayZ"
-  },
-  {
-    "type": "Game",
-    "name": "Escape from Tarkov"
-  },
-  {
-    "type": "Game",
-    "name": "SIMTE"
-  },
-  {
-    "type": "Game",
-    "name": "Roblox"
-  },
-  {
-    "type": "Game",
-    "name": "Unturned"
-  },
-  {
-    "type": "Game",
-    "name": "Assetto Corsa"
-  },
-  {
-    "type": "Game",
-    "name": "DiRT 3"
-  },
-  {
-    "type": "Game",
-    "name": "EVE Online"
-  }
+  {"type": "Game", "name": "Admirer's Room"},
+  {"type": "Game", "name": "Altar Room"},
+  {"type": "Game", "name": "Armory"},
+  {"type": "Game", "name": "Atrium"},
+  {"type": "Game", "name": "Barracks"},
+  {"type": "Game", "name": "Broken Bridge"},
+  {"type": "Game", "name": "Cage"},
+  {"type": "Game", "name": "Catacomb"},
+  {"type": "Game", "name": "Cemetery"},
+  {"type": "Game", "name": "Center Altar"},
+  {"type": "Game", "name": "Center Bridge"},
+  {"type": "Game", "name": "Chapel"},
+  {"type": "Game", "name": "Circular"},
+  {"type": "Game", "name": "Cistern"},
+  {"type": "Game", "name": "Cliffs"},
+  {"type": "Game", "name": "Coffin Rooms"},
+  {"type": "Game", "name": "Corridors"},
+  {"type": "Game", "name": "Cross Road"},
+  {"type": "Game", "name": "Crypt Dungeons"},
+  {"type": "Game", "name": "Dark Magic Library"},
+  {"type": "Game", "name": "Dark Priests"},
+  {"type": "Game", "name": "Death Hall"},
+  {"type": "Game", "name": "Fishing Grounds"},
+  {"type": "Game", "name": "Four Rooms"},
+  {"type": "Game", "name": "Gated Rooms"},
+  {"type": "Game", "name": "Guard Posts"},
+  {"type": "Game", "name": "Hall E"},
+  {"type": "Game", "name": "Hallways"},
+  {"type": "Game", "name": "High Priests"},
+  {"type": "Game", "name": "Long Bridge"},
+  {"type": "Game", "name": "Maze"},
+  {"type": "Game", "name": "Mimic Lair"},
+  {"type": "Game", "name": "Mini Wheel"},
+  {"type": "Game", "name": "Mummy Chest"},
+  {"type": "Game", "name": "Old Tomb"},
+  {"type": "Game", "name": "Pit"},
+  {"type": "Game", "name": "Prisons B"},
+  {"type": "Game", "name": "Pyramid"},
+  {"type": "Game", "name": "Ramparts"},
+  {"type": "Game", "name": "Ritual Room"},
+  {"type": "Game", "name": "Sanctum"},
+  {"type": "Game", "name": "Sewers"},
+  {"type": "Game", "name": "Skeleton Rooms"},
+  {"type": "Game", "name": "Storeroom"},
+  {"type": "Game", "name": "Swamp"},
+  {"type": "Game", "name": "The Great Walkway"},
+  {"type": "Game", "name": "Tombs"},
+  {"type": "Game", "name": "Trap Hall A"},
+  {"type": "Game", "name": "Trap Hall B"},
+  {"type": "Game", "name": "Treasure Room"},
+  {"type": "Game", "name": "Twin Cemeteries"},
+  {"type": "Game", "name": "Underground Altar"},
+  {"type": "Game", "name": "Vault"},
+  {"type": "Game", "name": "Wheel"},
+  {"type": "Game", "name": "Wraith Lair"}
 ]
