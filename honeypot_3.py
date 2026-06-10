@@ -7,6 +7,7 @@ import requests
 from discord.ext import commands
 from discord.enums import ActivityType
 import time
+from token_refresh import refresh_token
 
 
 def HONEYPOT_3():
@@ -32,14 +33,11 @@ pronouns = load_database('pronouns.json')  # Not directly used in this example
 names = load_database('nicknames.json')
 images = [os.path.join('Database', 'images', img) for img in load_database('images.json')]
 statuses = load_database('status.json')
-bios = load_database('about_me.json')  # Added for bio updates
+bios = [bio for category in load_database('about_me.json').values() for bio in category]
 token_data = load_token_config('token_3.json')
 
 # Bot setup
-intents = discord.Intents.default()
-intents.messages = True
-intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents, self_bot=True)
+bot = commands.Bot(command_prefix='!', self_bot=True)
 
 
 def get_activity(status):
@@ -54,7 +52,7 @@ def get_activity(status):
 
 def update_bio(token, new_bio):
     url = "https://discord.com/api/v9/users/@me"
-    headers = {"Authorization": f"Bot {token}"}
+    headers = {"Authorization": token}
     json_data = {"bio": new_bio}
     response = requests.patch(url, headers=headers, json=json_data)
     return response.status_code
@@ -67,14 +65,14 @@ async def change_profile():
         new_bio = random.choice(bios)  # Select a new bio
 
         try:
-            await bot.user.edit(username=new_name)
+            await bot.user.edit(username=new_name, password=token_data['password'])
             print(f"[HONEYPOT_3] Changed username to {new_name}")
         except discord.HTTPException as e:
             print(f"[HONEYPOT_3] Failed to change username: {e}")
 
         try:
             with open(new_image_path, 'rb') as img:
-                await bot.user.edit(avatar=img.read())
+                await bot.user.edit(avatar=img.read(), password=token_data['password'])
                 print(f"[HONEYPOT_3] Changed avatar image to {new_image_path}")
         except discord.HTTPException as e:
             print(f"[HONEYPOT_3] Failed to change avatar: {e}")
@@ -92,7 +90,7 @@ async def change_status():
         status_info = random.choice(statuses)
         new_status = get_activity(status_info)
         print(f"[HONEYPOT_3] Changed status to {new_status}")
-        await bot.change_presence(activity=new_status)
+        await bot.change_presence(status=discord.Status.online, activity=new_status)
         await asyncio.sleep(random.randint(600, 1800))
 
 
@@ -142,7 +140,40 @@ async def on_message(message):
         # Immediately send the log to the specified channel
         await send_dm_log_to_channel(log_entry)
 
+        guild_id = token_data.get('guild_id')
+        if guild_id:
+            guild = bot.get_guild(int(guild_id))
+            if guild:
+                try:
+                    member = await guild.fetch_member(message.author.id)
+                    await member.kick(reason="Messaged a honeypot account")
+                    print(f"[HONEYPOT_3] Kicked {message.author} from guild.")
+                    await send_kill_message(member)
+                except discord.NotFound:
+                    print(f"[HONEYPOT_3] {message.author} is not in the guild, skipping kick.")
+                except discord.Forbidden:
+                    print(f"[HONEYPOT_3] Missing permissions to kick {message.author}.")
+                except discord.HTTPException as e:
+                    print(f"[HONEYPOT_3] Failed to kick {message.author}: {e}")
+
     await bot.process_commands(message)
+
+
+async def send_kill_message(killed_member):
+    guild = bot.get_guild(int(token_data['guild_id']))
+    bot_nick = guild.me.display_name if guild and guild.me else bot.user.display_name
+    content = (
+        f"```ansi\n"
+        f"\033[1;37m{bot_nick}\033[0m killed \033[1;37m{killed_member.name}\033[0m \033[1;33m(Fireball)\033[0m\n"
+        f"```"
+    )
+    for channel_id in [1174037408128446556, 1514292468210733217]:
+        channel = bot.get_channel(channel_id)
+        if channel:
+            try:
+                await channel.send(content)
+            except discord.HTTPException as e:
+                print(f"[HONEYPOT_3] Failed to send kill message to {channel_id}: {e}")
 
 
 async def send_dm_log_to_channel(log_entry):
@@ -157,8 +188,8 @@ async def send_dm_log_to_channel(log_entry):
         return
 
     message_content = (
-        "## HONEYPOT NO.1 WAS TRIGGERED\n"
-        f"- **HONEYPOT NO.1 RUNNING AS: @{bot.user.name}**\n"
+        "## HONEYPOT NO.3 WAS TRIGGERED\n"
+        f"- **HONEYPOT NO.3 RUNNING AS: @{bot.user.name}**\n"
         f"- **DATE:** {log_entry['time'][:10]}\n"
         f"- **TIME:** {log_entry['time'][11:19]}\n"
         f"- **USERNAME:** {log_entry['from']['name']}\n"
@@ -169,6 +200,18 @@ async def send_dm_log_to_channel(log_entry):
     await channel.send(message_content)
 
 
-# Use the token from your token.json
 bot_token = token_data['token']
-bot.run(bot_token)
+
+while True:
+    try:
+        bot.run(bot_token)
+        break
+    except discord.LoginFailure:
+        print("[HONEYPOT_3] Token expired, refreshing...")
+        new_token = refresh_token('token_3.json')
+        if new_token is None:
+            print("[HONEYPOT_3] Token refresh failed, exiting.")
+            break
+        bot_token = new_token
+        token_data['token'] = new_token
+        print("[HONEYPOT_3] Token refreshed, reconnecting...")
